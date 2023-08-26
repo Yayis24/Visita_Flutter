@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347375785702",
+    "project_id": "visitas-10e33",
+    "storage_bucket": "visitas-10e33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347375785702:android:a229f59baf582a5e290d27",
+        "android_client_info": {
+          "package_name": "com.example.visitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347375785702-v9fi27kc822hrep51n38o51nqvs7me2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEzsjzoN6Xf17C_ols7sDw2gYLuz1q0hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347375785702-v9fi27kc822hrep51n38o51nqvs7me2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
