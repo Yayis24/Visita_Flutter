@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visitas/database/database.dart';
 import 'package:visitas/screens/Home_Screen.dart';
+import 'package:visitas/screens/adminview.dart';
 import 'package:visitas/utils/color_utils.dart';
 import '../reusable/reusable_widget.dart';
 import 'signup_screen.dart';
@@ -19,12 +20,30 @@ class _SingInScreenState extends State<SingInScreen> {
 // Validacion de credenciales ingresadas
 
   void _handleSignIn(String username, String password) async {
+    final context =
+        this.context; // Almacena el BuildContext en una variable local
+
     Map<String, dynamic>? user =
         await Datavisit.getUserByUsernameAndPassword(username, password);
 
     if (user != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      if (user['role'] == 'admin') {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => AdminView()),
+          (route) => false,
+        );
+      } else {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(
+              userId: user['id'],
+            ),
+          ),
+          (route) => false,
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -34,8 +53,6 @@ class _SingInScreenState extends State<SingInScreen> {
       );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -6,8 +6,15 @@ class Datavisit {
     Database database = await openDatabase(
       join(await getDatabasesPath(), 'database.db'),
       onCreate: (db, version) {
-        db.execute(
-            'CREATE TABLE visit (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , name TEXT, date DATE, amount INTEGER)');
+        db.execute('''CREATE TABLE visit (
+              id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+              name TEXT,
+              date DATE,
+              amount INTEGER,
+              user_id INTEGER,
+              status TEXT DEFAULT 'pendiente' -- Agregar el campo de estado y establecerlo en 'pendiente' por defecto
+            )
+          ''');
 
         db.execute(
             'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT, password TEXT, role TEXT)');
@@ -20,7 +27,7 @@ class Datavisit {
           'role': 'admin',
         });
       },
-      version: 4,
+      version: 5,
     );
     return database;
   }
@@ -38,7 +45,7 @@ class Datavisit {
     Database database = await openDB();
     await database.insert('users', {
       'username': username,
-      'password': password, 
+      'password': password,
       'role': role,
     });
     database.close();
@@ -47,17 +54,17 @@ class Datavisit {
   // FUNCION VALIDACION DE CREDENCIALES
 
   static Future<Map<String, dynamic>?> getUserByUsernameAndPassword(
-    String username, String password) async {
-  Database database = await openDB();
-  List<Map<String, dynamic>> users = await database.query('users',
-      where: 'username = ? AND password = ?', whereArgs: [username, password]);
-  database.close();
+      String username, String password) async {
+    Database database = await openDB();
+    List<Map<String, dynamic>> users = await database.query('users',
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, password]);
+    database.close();
 
-  if (users.isNotEmpty) {
-    return users.first;
-  } else {
-    return null;
+    if (users.isNotEmpty) {
+      return users.first;
+    } else {
+      return null;
+    }
   }
-}
-
 }

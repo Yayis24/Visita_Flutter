@@ -5,8 +5,9 @@ import 'package:visitas/screens/settings.dart';
 
 class Routes extends StatelessWidget {
   final int index;
+  final int userId; // Agrega userId aquí
 
-  const Routes({required this.index});
+  const Routes({required this.index, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Routes extends StatelessWidget {
       case 0:
         return const Index();
       case 1:
-        return const RVisita();
+        return RVisita(userId: userId);
       case 2:
         return const Settings();
       default:

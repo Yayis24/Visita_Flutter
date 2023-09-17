@@ -6,8 +6,9 @@ import '../database/database.dart';
 
 class AddVisitScreen extends StatefulWidget {
   final String appBarTitle;
+  final int userId;
 
-  AddVisitScreen(this.appBarTitle);
+  AddVisitScreen({required this.appBarTitle, required this.userId});
 
   @override
   _AddVisitScreenState createState() => _AddVisitScreenState();
@@ -46,9 +47,9 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text('Registro de visitas'),
+        title: const Text('Registro de visitas'),
         titleTextStyle: const TextStyle(
-            color:  Color.fromARGB(255, 7, 7, 7),
+            color: Color.fromARGB(255, 7, 7, 7),
             fontSize: 25,
             fontWeight: FontWeight.bold),
         centerTitle: true,
@@ -61,16 +62,17 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Nombre de la institucion'),
+              decoration:
+                  InputDecoration(labelText: 'Nombre de la institucion'),
             ),
             SizedBox(height: 10),
             TextField(
               controller: dateController,
               keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                  labelText: 'Fecha',
-                  hintText: 'YYYY-MM-DD', // Agrega este marcador de posición
-                ),
+              decoration: InputDecoration(
+                labelText: 'Fecha',
+                hintText: 'YYYY-MM-DD', // Agrega este marcador de posición
+              ),
             ),
             SizedBox(height: 10),
             TextField(

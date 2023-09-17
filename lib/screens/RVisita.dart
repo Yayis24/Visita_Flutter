@@ -6,15 +6,20 @@ import '../database/database.dart';
 //VISTA DE REGISTROS REALIZADOS
 
 class RVisita extends StatefulWidget {
-  const RVisita({super.key});
+  final int userId; // Agrega userId como parámetro
+
+  const RVisita({Key? key, required this.userId}) : super(key: key);
 
   @override
-  State<RVisita> createState() => _RVisitaState();
+  State<RVisita> createState() => _RVisitaState(userId: userId);
 }
 
 class _RVisitaState extends State<RVisita> {
   int count = 0;
   List<Map<String, dynamic>> visits = []; // Lista para almacenar las visitas
+  int userId; // Agrega userId como variable miembro
+
+  _RVisitaState({required this.userId}); // Constructor que recibe userId
 
   Future<void> fetchVisits() async {
     Database database = await Datavisit.openDB();
@@ -204,8 +209,7 @@ class _RVisitaState extends State<RVisita> {
 
                     // Cierra el modal
                     Navigator.of(context).pop();
-                    updateVisits();//Actualiza los datos despues de editarlos
-              
+                    updateVisits(); //Actualiza los datos despues de editarlos
                   },
                   child: Text('Guardar'),
                 ),
@@ -215,6 +219,16 @@ class _RVisitaState extends State<RVisita> {
         );
       },
     );
+  }
+
+  String getStatusText(String status) {
+    if (status == 'Aprobada') {
+      return 'Aprobada';
+    } else if (status == 'Rechazada') {
+      return 'Rechazada';
+    } else {
+      return 'Pendiente';
+    }
   }
 
   ListView getNoteListView() {
@@ -227,6 +241,21 @@ class _RVisitaState extends State<RVisita> {
       itemCount: visits.length,
       itemBuilder: (BuildContext context, int position) {
         final visit = visits[position];
+        String status = visit['status'];
+        String statusText = getStatusText(status);
+        // Declarar la variable statusColor aquí con un valor por defecto
+        Color statusColor = Colors.black; // Color por defecto
+
+        if (status == 'pendiente') {
+          statusColor = Colors.blue;
+        } else if (status == 'aprobado') {
+          statusColor = Colors.green;
+          statusText = 'Aprobado';
+        } else if (status == 'rechazado') {
+          statusColor = Colors.red;
+          statusText = 'Rechazado';
+        }
+
         return Card(
           color: Colors.white,
           elevation: 2.0,
@@ -239,10 +268,12 @@ class _RVisitaState extends State<RVisita> {
               visit['name'],
               style: titleStyle,
             ),
-            subtitle: Text(visit['date']),
+            subtitle: Text(
+              'Estado: $statusText',
+              style: TextStyle(color: statusColor),
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
-              /* hola soy yaya y me gustan las tetas  */
               children: [
                 IconButton(
                   icon: Icon(Icons.edit_document),
@@ -302,8 +333,13 @@ class _RVisitaState extends State<RVisita> {
           await Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddVisitScreen('Nueva Visita')),
+              builder: (context) => AddVisitScreen(
+                appBarTitle: 'Nueva Visita',
+                userId: userId,
+              ),
+            ),
           );
+
           // Después de cerrar la pantalla de agregar visita, actualiza la lista
           setState(() {});
         },

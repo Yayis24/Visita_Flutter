@@ -7,9 +7,19 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Configuracion'),
+        titleTextStyle: TextStyle(
+            color: const Color.fromARGB(255, 7, 7, 7),
+            fontSize: 25,
+            fontWeight: FontWeight.bold),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 3, 155, 147),
+      ),
       body: Center(
         child: ElevatedButton(
-          child: Text("Salir"),
+          child: Text("Cerrar sesion"),
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => SingInScreen()));
