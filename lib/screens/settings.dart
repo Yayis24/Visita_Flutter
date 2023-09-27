@@ -21,7 +21,7 @@ class Settings extends StatelessWidget {
         child: ElevatedButton(
           child: Text("Cerrar sesion"),
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => SingInScreen()));
           },
         ),
